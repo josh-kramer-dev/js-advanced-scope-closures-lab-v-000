@@ -1,15 +1,16 @@
 // produceDrivingRange returns a function
 //  expect(typeof produceDrivingRange()).to.equal('function')
 function produceDrivingRange(blockRange){
-  let actualRange = function(startingBlock, endingBlock){
-    return startingBlock - endingBlock;     //get the delta between the starting and ending streets passed through as arguments?
-  };
-  if actualRange <= blockRange
-    return `within range by ${actualRange}`;
+  return function(startingBlock, endingBlock){
+    let start = parseInt(startingBlock); //ensure that the passed in argument is an integer using parseInt
+    let end = parseInt(endingBlock); // same, but for the end
+    let distanceToTravel = Math.abs(end - start)  //get the delta between the starting and ending streets
+    let difference = blockRange - distanceToTravel; //find the delta between the distanceToTravel and the given blockRange
+
+    if (difference > 0) {        //if the difference is positive, the ride is in range, otherwise it's out of range
+      return `within range by ${difference}`;
+    } else {
+      return `${Math.abs(difference)} blocks out of range`
+    }
+  }
 }
-
-
-// takes an argument of blockRange whic is then used to calculate if something is within range
-//  let eightBlockRange = produceDrivingRange(8)
-//  expect(eightBlockRange('10th', '20th')).to.equal('2 blocks out of range')
-//  expect(eightBlockRange('10th', '14th')).to.equal('within range by 4')
